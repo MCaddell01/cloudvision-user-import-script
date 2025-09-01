@@ -67,7 +67,7 @@ def main():
     user_data = get_user_data(base_url=base_url, token=token)
     if user_data != None:
         fieldnames = list(user_data[0].keys())
-        save_file = f'{args.save_file_path}/{args.save_file_name}.csv'
+        save_file = f'{args.save_file_name}.csv'
         with open(save_file, 'w', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
