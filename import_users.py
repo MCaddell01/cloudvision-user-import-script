@@ -60,9 +60,9 @@ def post_user_data(base_url, token, new_users):
     filtered_roles = {}
     for user in new_users:
         if user.get('userId') in list_of_existing_users:
-            print(f'Removed {user.get('userId')} as it already exists on {base_url}')
+            print(f'Removed {user.get('userId')} from the import list as it already exists on {base_url}')
         elif user.get('userType') != 'SSO':
-            print(f'Removed {user.get('userId')} as it does not use SSO authentication')
+            print(f'Removed {user.get('userId')} from the import list as it does not use SSO authentication')
         else:
             filtered_users.append(user)
             filtered_roles[user.get('userId')] = new_roles[user['userId']]
@@ -83,7 +83,7 @@ def post_user_data(base_url, token, new_users):
             return False
 
     # check there are new users to create
-    if len(new_users)==0:
+    if len(filtered_users)==0:
         print("No new users to create")
         return False
 
@@ -104,6 +104,7 @@ def post_user_data(base_url, token, new_users):
             if 'errorCode' in response.text:
                 print(f"Post new users reponse text: {response.text}")
                 return False
+            print(f"Created new user {user['userId']}")
         else:
             print(f"Post new users reponse text: {response.text}")
             return False
