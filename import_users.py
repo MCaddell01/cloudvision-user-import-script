@@ -89,15 +89,15 @@ def post_user_data(base_url, token, new_users):
 
     # post new users
     # users must be posted via individual api requests
+    input(f"WARNING! You are about to create {len(filtered_users)} new user(s) on {base_url}, press enter to confirm: ")
     for user in filtered_users:
         role = filtered_roles.get(user['userId'])
         body = {'roles': role,
-                'users': user}
+                'user': user}
         cvp_service = '/cvpservice/user/addUser.do'
         headers = {'accept': 'application/json',
                    'Content-Type': 'application/json',\
             'Authorization': 'Bearer {}'.format(token)}
-        input(f"WARNING! You are about to create {len(filtered_users)} new user(s) on {base_url}, press enter to confirm: ")
         response = requests.post(f"{base_url}{cvp_service}", headers=headers, json=body,  verify=True, timeout=20)
         print(f"Post new users reponse status code: {response.status_code}")
         if response.status_code == 200:
