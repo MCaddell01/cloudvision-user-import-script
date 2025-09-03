@@ -1,6 +1,6 @@
 # cloudvision-user-import-script
 
-This repository contains scripts which may export or import a list of users from and to an Arista CloudVision Portal (CVP) platform.
+This repository contains scripts which may export or import users from or to an Arista CloudVision Portal (CVP) platform.
 
 # export users
 
@@ -8,7 +8,8 @@ The script 'export_users.py' will export users from the specified CVP platform a
 
 When users are exported using the '/cvpservice/user/getUsers.do' pathname, the returned JSON separates the 'roles' dictionary uses the userId as the key and the assigned roles as a list value.
 This script will filter the 'users' dictionary to only the required parameters and will append the assigned user roles as an additional key entry as follows;
-'''json
+
+```json
 {"users": [
     {
       "userId": "testUser",
@@ -19,11 +20,12 @@ This script will filter the 'users' dictionary to only the required parameters a
       "userType": "SSO",
       "userStatus": "Enabled",
       "profile": "userProfile",
-      "roles": "['role1', 'role2', 'role3']
+      "roles": "[role1, role2, role3]"
     }
   ]
 }
-'''
+```
+
 The "users" dictionary is then written to a the CSV file, to be imported by the import script, in the following format:
 | userId    | firstName | lastName | email                        | contactNumber | userType | userStatus | profile        | roles                   |
 |-----------|-----------|----------|------------------------------|---------------|----------|------------|----------------|-------------------------|
@@ -34,9 +36,9 @@ Users are written to a CSV file to allow an administrator to bulk create a numbe
 Roles must be spcified as a list with the surrounding square brackets, even if only one role is entered.
 
 You can run the script as follows:
-'''bash
+```bash
 python ./export_users.py --identity identities/on-prem.json --file users.csv
-'''
+```
 The '--identities' is required, the '--file' arguments is optional and can be used to specify a file name.
 
 # import users
@@ -52,18 +54,18 @@ The CSV file is reformatted into a JSON structure, this JSON is then iterated ov
 The script will then get an updated list of users from CVP and will confirm all users have been created.
 
 You can run the script as follows:
-'''
+```bash
 python ./import_users.py --identity identities/cvaas.json --file users.csv
-'''
+```
 Both the '--identities' and '--file' arguments are required.
 
 # Authentication
 
 Both scripts make use of the CloudVision REST API Explorer to get and post data. APIs are authenticated using Service Account Tokens generated from the CloudVision Settings menu, and are to be stored in JSON format along with the endpoint URL in the 'identities/' folder as follows;
-'''json
+```json
 {
     "base_url": "https://<cvp-url>",
     "token": "<service-account-token>"
 }
-'''
+```
 A new identity is required for each CVP platform.
