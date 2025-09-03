@@ -2,11 +2,11 @@
 
 This repository contains scripts which may export or import users from or to an Arista CloudVision Portal (CVP) platform.
 
-# export users
+# Export users
 
 The script 'export_users.py' will export users from the specified CVP platform and write them to a CSV file.
 
-When users are exported using the '/cvpservice/user/getUsers.do' pathname, the returned JSON separates the 'roles' dictionary uses the userId as the key and the assigned roles as a list value.
+Users are exported using the '/cvpservice/user/getUsers.do' pathname and both the user roles & user details are returned in the response.
 This script will filter the 'users' dictionary to only the required parameters and will append the assigned user roles as an additional key entry as follows;
 
 ```json
@@ -26,7 +26,7 @@ This script will filter the 'users' dictionary to only the required parameters a
 }
 ```
 
-The "users" dictionary is then written to a the CSV file, to be imported by the import script, in the following format:
+The 'users' dictionary is then written to a the CSV file, to be imported by the import script, in the following format:
 | userId    | firstName | lastName | email                        | contactNumber | userType | userStatus | profile        | roles                   |
 |-----------|-----------|----------|------------------------------|---------------|----------|------------|----------------|-------------------------|
 | testUser  | Test      | User     | test.user@example.co.uk      | 01234 567890  | SSO      | Enabled    | userProfile    | ['role1', role2, role3] |
@@ -41,13 +41,12 @@ python ./export_users.py --identity identities/on-prem.json --file users.csv
 ```
 The '--identities' is required, the '--file' arguments is optional and can be used to specify a file name.
 
-# import users
+# Import users
 
 The script 'import_users.py' will import users from a CSV file to the specifed CVP platform.
-A series of checks are in place to ensure the import will be successful before attempting.
+Checks are in place to ensure the import will be successful before attempting.
 Firstly the script will get a list of the current users & roles from the platform.
-It will remove any existing users or users which do not use 'SSO' authenticationin from the list.
-It will also confirm all applied roles exist on the platform.
+It will remove any existing users or users which do not use 'SSO' authenticationin from the list, it will also confirm all applied roles exist on the platform.
 
 The CSV file is reformatted into a JSON structure, this JSON is then iterated over to post each user to the CVP endpoint individually using the 'cvpservice/user/addUser.do' pathname.
 
