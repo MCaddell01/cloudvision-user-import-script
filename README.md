@@ -35,7 +35,7 @@ The "users" dictionary is then written to a the CSV file, to be imported by the 
 Users are written to a CSV file to allow an administrator to bulk create a number of users and import them to a CVP platform using the import script.
 Roles must be spcified as a list with the surrounding square brackets, even if only one role is entered.
 
-You can run the script as follows:
+You can run the script as follows;
 ```bash
 python ./export_users.py --identity identities/on-prem.json --file users.csv
 ```
@@ -53,7 +53,7 @@ The CSV file is reformatted into a JSON structure, this JSON is then iterated ov
 
 The script will then get an updated list of users from CVP and will confirm all users have been created.
 
-You can run the script as follows:
+You can run the script as follows;
 ```bash
 python ./import_users.py --identity identities/cvaas.json --file users.csv
 ```
@@ -61,7 +61,7 @@ Both the '--identities' and '--file' arguments are required.
 
 # Authentication
 
-Both scripts make use of the CloudVision REST API Explorer to get and post data. APIs are authenticated using Service Account Tokens generated from the CloudVision Settings menu, and are to be stored in JSON format along with the endpoint URL in the 'identities/' folder as follows;
+Both scripts make use of the CloudVision REST API Explorer to get and post data. APIs are authenticated using Service Account Tokens generated from the CloudVision Settings menu and are to be stored in JSON format along with the endpoint URL in the 'identities/' folder as follows;
 ```json
 {
     "base_url": "https://<cvp-url>",
