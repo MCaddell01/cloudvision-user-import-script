@@ -1,5 +1,4 @@
-# A simple Python script which can make RESTful API call to an Arista
-# CloudVision endpoint to get user information and create new users
+# Script to get user information from a CloudVision endpoint and write it to a .csv file
 
 import requests, json, argparse, csv
 
@@ -65,6 +64,7 @@ def main():
         token = identity_dict['token']
 
     user_data = get_user_data(base_url=base_url, token=token)
+    # write data to .csv
     if user_data != None:
         fieldnames = list(user_data[0].keys())
         save_file = f'{args.save_file_name}.csv'

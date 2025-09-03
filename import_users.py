@@ -1,5 +1,4 @@
-# A simple Python script which can make RESTful API call to an Arista
-# CloudVision endpoint to get user information and create new users
+# Script to create new users on a CloudVision endpoint from a .csv file
 
 import requests, json, argparse, csv, ast
 
